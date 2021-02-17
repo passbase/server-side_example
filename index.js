@@ -15,6 +15,7 @@ app.use(cors());
 
 const apiKey = "SECRET_API_KEY";
 
+// call the Passbase API getIdentity endpoint with Passbase Node.js server-side library
 const config = new PassbaseConfiguration({
   apiKey,
   format: ResponseFormats.Json,
@@ -26,17 +27,10 @@ const callPassbaseAPI = async (identityAccessKey) => {
   const identity = await client.getIdentityById(identityAccessKey);
   console.log("IDENTITY INFO HERE: ", identity);
   console.log(identity.resources)
-
-  // const resource1 = await client.getIdentityResourceById(identity.resources[0])
-  // console.log(resource1)
-
-
-  // const projectSettings = await client.getProjectSettings();
-
-  // console.log("PROJECT SETTINGS: ", JSON.stringify(projectSettings, null, 4));
   
 };
 
+// call the Passbase API getIdentity endpoint with Axios
 // const callWithAxios = (id) => {
 //     var config = {
 //         method: 'get',
@@ -57,6 +51,7 @@ const callPassbaseAPI = async (identityAccessKey) => {
 //     });
 // }
 
+// Receive Passbase webhook events
 app.post("/passbase-webhooks", async (req, res) => {
   const webhook = req.body;
 
@@ -71,10 +66,7 @@ app.post("/passbase-webhooks", async (req, res) => {
       break;
     case "VERIFICATION_COMPLETED":
       console.log("VERIFICATION_COMPLETED");
-      // const nodeIdentity = callPassbaseAPI(webhook.key);
-      // console.log(nodeIdentity);
-      // const identity = await callWithAxios(webhook.key)
-      // console.log(identity);
+      callPassbaseAPI(webhook.key);
       break;
     default:
       console.log("Couldn't process webhook event");
