@@ -23,11 +23,9 @@ const config = new PassbaseConfiguration({
 
 const callPassbaseAPI = async (identityAccessKey) => {
   const client = new PassbaseClient(config);
-
   const identity = await client.getIdentityById(identityAccessKey);
   console.log("IDENTITY INFO HERE: ", identity);
   console.log(identity.resources)
-  
 };
 
 // call the Passbase API getIdentity endpoint with Axios
@@ -54,7 +52,6 @@ const callPassbaseAPI = async (identityAccessKey) => {
 // Receive Passbase webhook events
 app.post("/passbase-webhooks", async (req, res) => {
   const webhook = req.body;
-
   switch (webhook.event) {
     case "VERIFICATION_REVIEWED":
       console.log("VERIFICATION_REVIEWED");
